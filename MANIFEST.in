@@ -1,4 +1,4 @@
-include bug-star/schema.sql
-graft bug-star/static
-graft bug-star/templates
+include bugstar/schema.sql
+graft bugstar/static
+graft bugstar/templates
 global-exclude *.pyc
