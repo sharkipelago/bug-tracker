@@ -18,6 +18,7 @@ CREATE TABLE issue (
   title TEXT NOT NULL,
   body TEXT NOT NULL,
   FOREIGN KEY (author_id) REFERENCES user (id)
+  FOREIGN KEY (closer_id) REFERENCES user (id)
 );
 
 CREATE TABLE assignee (
