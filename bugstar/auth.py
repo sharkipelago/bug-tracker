@@ -70,7 +70,7 @@ def login():
 
         flash(error)
 
-    return render_template(url_for("auth.login"))
+    return render_template("auth/login.html")
 
 @bp.before_app_request
 def load_logged_in_user():
@@ -97,3 +97,4 @@ def login_required(view):
         return view(**kwargs)
 
     return wrapped_view
+
