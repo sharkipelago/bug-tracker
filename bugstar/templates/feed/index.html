@@ -1,1 +1,9 @@
 {% extends 'feed/base.html' %}   
+
+{% block header %}
+    <h1 class="h3 mb-0 text-gray-800">{% block title %}Dashboard{% endblock %}</h1>
+    {% if g.user %}
+        <a href="{{ url_for('feed.create') }}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+            class="fas fa-plus fa-sm text-white-50"></i> New </a>
+    {% endif %}
+{% endblock %}
