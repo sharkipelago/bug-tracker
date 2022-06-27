@@ -31,7 +31,7 @@
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{url_for('index')}}">
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-laugh-wink"></i>
                 </div>
@@ -43,7 +43,7 @@
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
-                <a class="nav-link" href="index.html">
+                <a class="nav-link" href="{{url_for('index')}}">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span></a>
             </li>
@@ -268,8 +268,20 @@
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         {% block header %}{% endblock %}
                     </div>
+                    
+                    {% for message in get_flashed_messages() %}
+                    <div class="btn-warning btn-icon-split btn-sm mb-4">
+                        <span class="icon text-white-50">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </span>
+                        <span class="text"> {{message}} </span>
+                    </div>
+                    {% endfor %}
 
+                    {% block content %}{% endblock %}
                 </div>
+
+
                 <!-- /.container-fluid -->
 
             </div>
