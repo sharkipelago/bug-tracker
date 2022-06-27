@@ -12,12 +12,12 @@ bp = Blueprint('feed', __name__)
 @login_required
 def index():
     db = get_db()
-    posts = db.execute(
+    issues = db.execute(
         'SELECT i.id, author_id, closer_id, created, title, body'
         ' FROM issue i JOIN user u ON i.author_id = u.id'
         ' ORDER BY created DESC'
     ).fetchall()
-    return render_template('feed/index.html', posts=posts)
+    return render_template('feed/index.html', issues=issues, user=g.user)
 
 @bp.route('/create', methods=('GET', 'POST'))
 @login_required
