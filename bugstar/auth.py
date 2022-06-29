@@ -12,32 +12,40 @@ bp = Blueprint('auth', __name__, url_prefix='/auth')
 @bp.route('/register', methods=('GET', 'POST'))
 def register():
     if request.method == 'POST':
-        username = request.form['username']
+        firstname = request.form['firstname']
+        lastname = request.form['lastname']
+        username =  request.form['username']
         password = request.form['password']
+        repeat_pass = request.form['repeat']
         db = get_db()
         error = None
 
-        if not username:
+        if not firstname or not lastname:
+            error = 'First name and last name are required'
+        elif not username:
             error = 'Username is required.'
         elif not password:
             error = 'Password is required.'
+        elif not repeat_pass:
+            error = 'Password confirmation is required'
+        elif password != repeat_pass:
+            error = 'Passwords do not match'
 
         if error is None:
             try:
                 db.execute(
-                    "INSERT INTO user (username, password) VALUES (?, ?)",
-                    (username, generate_password_hash(password)),
+                    "INSERT INTO user (username, password, firstname, lastname) VALUES (?, ?, ?, ?)",
+                    (username, generate_password_hash(password), firstname, lastname),
                 )
                 db.commit()
             except db.IntegrityError:
                 error = f"User {username} is already registered."
-            else:
+            else: 
                 return redirect(url_for("auth.login"))
 
         flash(error)
 
-    return render_template('admin-2/index.html')
-    #return render_template('auth/register.html')
+    return render_template('auth/register.html')
 
 @bp.route('/login', methods=('GET', 'POST'))
 def login():
@@ -62,7 +70,7 @@ def login():
 
         flash(error)
 
-    return render_template('auth/login.html')
+    return render_template("auth/login.html")
 
 @bp.before_app_request
 def load_logged_in_user():
@@ -89,3 +97,4 @@ def login_required(view):
         return view(**kwargs)
 
     return wrapped_view
+
