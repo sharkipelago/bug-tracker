@@ -15,13 +15,21 @@
               <div class="col-auto">
                 <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">
                     <label for="title">Title</label>
-                    <div class="my-2"></div>
                     <input class="form-control form-control-user" name="title" id="title" value="{{ request.form['title'] }}" required>
                     <div class="my-2"></div>
+                    
                     <label for="body">Body</label>
-                    <div class="my-2"></div>
                     <textarea  class="form-control form-control-user" name="body" id="body">{{ request.form['body'] }}</textarea>
                     <div class="my-2"></div>
+
+                    <label for="assignees">Assign To:</label>
+                    <select class="form-control form-control-user" id="assignees" name="assignees" multiple>
+                      {% for user in all_users %}
+                        <option value="{{user['id']}}">{{user["name"]}}</option>
+                      {% endfor %}
+                    </select>
+                    <div class="my-2"></div>
+
                     <input class="btn btn-success" type="submit" value="Save">
                 </div>
               </div>

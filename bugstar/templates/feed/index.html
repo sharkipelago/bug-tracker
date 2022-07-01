@@ -37,7 +37,18 @@
             </div>
             <!-- Card Body -->
             <div class="card-body">
-                <div class="about"> by {{ issue['authorname'] }} on {{ issue['created'].strftime('%Y-%m-%d') }}</div>
+                <div class="about">
+                    <div class="row">
+                        <div class="col">by {{ issue['authorname'] }} on {{ issue['created'].strftime('%Y-%m-%d') }}</div> 
+                        <div class="col-auto">
+                            {% if issue["assignees"] != None%}
+                                assigned to {{ issue['assignees'] }}
+                            {% endif %} 
+                        </div>
+                    </div>
+
+                </div>
+                <hr>
                 <p>{{ issue["body"] }}</p>
                 
             </div>
