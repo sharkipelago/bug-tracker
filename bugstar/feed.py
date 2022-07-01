@@ -22,14 +22,14 @@ def get_index_db_statement():
     # Converts Assignee ids into names
     assignee_names = (
         'SELECT issue_id, (firstname || " " || lastname) AS name'
-        ' FROM assignee a'
-        ' JOIN user u ON a.assignee_id = u.id'
+        ' FROM assignments a'
+        ' JOIN users u ON a.assignee_id = u.id'
     )
 
     # Group assignee names by issue they are related to
     issue_assignees = (
         'SELECT GROUP_CONCAT(name) assignees, closer_id, created, title, body, author_id'
-        ' FROM issue i'
+        ' FROM issues i'
         f' LEFT JOIN ({assignee_names}) a ON a.issue_id = i.id'
         ' GROUP BY i.id'
     )
@@ -38,7 +38,7 @@ def get_index_db_statement():
         'SELECT closer_id, created, title, body, assignees,'
         ' (firstname || " " || lastname) AS authorname'
         f' FROM ({issue_assignees}) i'
-        ' LEFT JOIN user u ON i.author_id = u.id'
+        ' LEFT JOIN users u ON i.author_id = u.id'
         ' ORDER BY created DESC'
     )
 
@@ -62,14 +62,14 @@ def create():
             flash(error)
         else:
             db.execute(
-                'INSERT INTO issue (title, body, author_id)'
+                'INSERT INTO issues (title, body, author_id)'
                 ' VALUES (?, ?, ?)',
                 (title, body, g.user['id'])
             )
             db.commit()
             issue_id = db.execute(
                 'SELECT i.id'
-                ' FROM issue i'
+                ' FROM issues i'
                 ' WHERE title = ?'
                 ' ORDER BY created DESC',
                 (title, )
@@ -85,7 +85,7 @@ def create():
 
     all_users = db.execute(
         'SELECT id, (firstname || " " || lastname) AS name'
-        ' FROM user'
+        ' FROM users'
         ' ORDER BY lastname'
     ).fetchall()
 
@@ -94,7 +94,7 @@ def create():
 def get_issue(id, check_author=True):
     issue = get_db().execute(
         'SELECT p.id, title, body, created, author_id, username'
-        ' FROM issue p JOIN user u ON p.author_id = u.id'
+        ' FROM issues p JOIN users u ON p.author_id = u.id'
         ' WHERE p.id = ?',
         (id,)
     ).fetchone()
@@ -125,7 +125,7 @@ def update(id):
         else:
             db = get_db()
             db.execute(
-                'UPDATE issue SET title = ?, body = ?'
+                'UPDATE issues SET title = ?, body = ?'
                 ' WHERE id = ?',
                 (title, body, id)
             )
@@ -139,6 +139,6 @@ def update(id):
 def delete(id):
     get_issue(id)
     db = get_db()
-    db.execute('DELETE FROM issue WHERE id = ?', (id,))
+    db.execute('DELETE FROM issues WHERE id = ?', (id,))
     db.commit()
     return redirect(url_for('feed.index'))

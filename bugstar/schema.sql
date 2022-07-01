@@ -1,8 +1,8 @@
-DROP TABLE IF EXISTS user;
-DROP TABLE IF EXISTS issue;
-DROP TABLE IF EXISTS assignee;
+DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS issues;
+DROP TABLE IF EXISTS assignments;
 
-CREATE TABLE user (
+CREATE TABLE users (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   username TEXT UNIQUE NOT NULL,
   password TEXT NOT NULL,
@@ -10,7 +10,7 @@ CREATE TABLE user (
   lastname TEXT NOT NULL
 );
 
-CREATE TABLE issue (
+CREATE TABLE issues (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   author_id INTEGER NOT NULL,
   closer_id INTEGER, --user who closes issue
@@ -21,10 +21,9 @@ CREATE TABLE issue (
   FOREIGN KEY (closer_id) REFERENCES user (id)
 );
 
-CREATE TABLE assignee (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    issue_id INTEGER NOT NULL,
-    assignee_id INTEGER NOT NULL,
-    FOREIGN KEY (issue_id) REFERENCES issue (id),
-    FOREIGN KEY (assignee_id) REFERENCES user (id)
+CREATE TABLE assignments (
+  issue_id INTEGER NOT NULL,
+  assignee_id INTEGER NOT NULL,
+  FOREIGN KEY (issue_id) REFERENCES issue (id),
+  FOREIGN KEY (assignee_id) REFERENCES user (id)
 )
