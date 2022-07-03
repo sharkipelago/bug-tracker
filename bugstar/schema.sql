@@ -7,7 +7,8 @@ CREATE TABLE users (
   username TEXT UNIQUE NOT NULL,
   password TEXT NOT NULL,
   firstname TEXT NOT NULL,
-  lastname TEXT NOT NULL
+  lastname TEXT NOT NULL,
+  is_admin INTEGER NOT NULL --admins can assign issues
 );
 
 CREATE TABLE issues (
