@@ -1,0 +1,47 @@
+{% extends 'feed/base.html' %}
+
+{% block header %}
+    <h1 class="h3 mb-0 text-gray-800">{% block title %}Edit "{{ issue['title'] }}"{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+<!-- Tasks Card Example -->
+  <div class="col-xl-12">
+    <div class="card border-left-info shadow h-100 py-2">
+        <div class="card-body">
+          <form method="post">
+
+            <div class="col no-gutters justify-content-center">
+              <div class="col-auto">
+                <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">
+                    <label for="title">Title</label>
+                    <input class="form-control form-control-user" name="title" id="title" value="{{ request.form['title'] or issue['title'] }}" required>
+                    <div class="my-2"></div>
+                    
+                    <label for="body">Body</label>
+                    <textarea  class="form-control form-control-user" name="body" id="body">{{ request.form['body'] or issue['body']}}</textarea>
+                    <div class="my-2"></div>
+
+                    <label for="assignees">Assign To:</label>
+                    <select class="form-control form-control-user" id="assignees" name="assignees" multiple>
+                      {% for user in all_users %}
+                        {% if user["id"] in assigned_ids%}
+                          <option value="{{user['id']}}" selected>{{user["name"]}}</option>
+                        {% else %}
+                          <option value="{{user['id']}}">{{user["name"]}}</option>
+                        {% endif %}
+                      {% endfor %}
+                    </select>
+                    <div class="my-2"></div>
+
+                    <input class="btn btn-success" type="submit" value="Save">
+                </div>
+              </div>
+            </div>
+          
+          </form>
+                  
+        </div>
+    </div>
+  </div>  
+{% endblock %}

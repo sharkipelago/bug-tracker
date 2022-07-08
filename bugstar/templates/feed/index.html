@@ -47,8 +47,11 @@
                     <div class="row">
                         <div class="col">by {{ issue['authorname'] }} on {{ issue['created'].strftime('%Y-%m-%d') }}</div> 
                         <div class="col-auto">
-                            {% if issue["assignees"] != None %}
-                                assigned to {{ issue['assignees'] }}
+                            {% if issue["id"] != None %}
+                                assigned to
+                                {% for assignee in assignees[issue["id"]]%} 
+                                {{ assignee["name"] }}{{ ", " if not loop.last }}
+                                {% endfor %}
                             {% endif %} 
                         </div>
                     </div>
