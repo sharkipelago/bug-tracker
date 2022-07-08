@@ -202,5 +202,6 @@ def delete(id):
     get_issue(id)
     db = get_db()
     db.execute('DELETE FROM issues WHERE id = ?', (id,))
+    db.execute('DELETE FROM assignments WHERE issue_id = ?', (id,))
     db.commit()
     return redirect(url_for('feed.index'))
