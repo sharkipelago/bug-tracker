@@ -2,8 +2,10 @@ from flask import (
     Blueprint, flash, g, redirect, render_template, request, url_for
 )
 from werkzeug.exceptions import abort
+from bugstar import admin
 
 from bugstar.auth import login_required
+from bugstar.admin import admin_required
 from bugstar.db import get_db
 
 bp = Blueprint('feed', __name__)
@@ -73,6 +75,7 @@ def get_assignees(id=-1):
     return assignees
 
 @bp.route('/create', methods=('GET', 'POST'))
+@admin_required
 @login_required
 def create():
     db = get_db()
@@ -143,6 +146,7 @@ def get_all_users():
     ).fetchall()
 
 @bp.route('/<int:id>/update', methods=('GET', 'POST'))
+@admin_required
 @login_required
 def update(id):
     issue = get_issue(id)
@@ -197,6 +201,7 @@ def update(id):
     return render_template('feed/update.html', user=g.user, issue=issue, assigned_ids=assigned_ids, all_users=get_all_users())
 
 @bp.route('/<int:id>/delete', methods=('POST',))
+@admin_required
 @login_required
 def delete(id):
     get_issue(id)
