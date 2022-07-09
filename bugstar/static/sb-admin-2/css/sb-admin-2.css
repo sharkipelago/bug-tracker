@@ -10973,8 +10973,9 @@ form.user .btn-user {
   font-size: 7rem;
   position: relative;
   line-height: 1;
-  width: 12.5rem;
+  width: 22.25rem;
 }
+
 
 @-webkit-keyframes noise-anim {
   0% {

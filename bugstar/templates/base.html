@@ -18,7 +18,7 @@
         rel="stylesheet">
 
     <!-- Custom styles for this template-->
-    <link href="{{ url_for('static', filename='sb-admin-2/css/sb-admin-2.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='sb-admin-2/css/sb-admin-2.css') }}" rel="stylesheet">
 
 </head>
 
@@ -48,6 +48,12 @@
                     <span>Dashboard</span></a>
             </li>
 
+            <!-- Nav Item - Manage Users (If user is admin) -->
+            <li class="nav-item active">
+                <a class="nav-link" href="{{url_for('admin.index')}}">
+                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <span>Manage Users</span></a>
+            </li>
         </ul>
         <!-- End of Sidebar -->
 

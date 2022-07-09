@@ -10,13 +10,6 @@ from bugstar.db import get_db
 
 bp = Blueprint('admin', __name__, url_prefix='/admin')
 
-
-
-
-
-
-
-
 # Must be admin to access view
 def admin_required(view): 
     @functools.wraps(view)
@@ -27,3 +20,23 @@ def admin_required(view):
         return view(**kwargs)
 
     return wrapped_view
+
+
+@bp.route('/')
+@admin_required
+@login_required
+def index():
+    db = get_db()
+
+
+    
+
+
+    return render_template('admin/index.html', user=g.user)
+
+
+@bp.route('/denied')
+@login_required
+def denied():
+    return render_template('admin/denied.html', user=g.user)
+
