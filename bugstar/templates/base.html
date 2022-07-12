@@ -20,6 +20,7 @@
     <!-- Custom styles for this template-->
     <link href="{{ url_for('static', filename='sb-admin-2/css/sb-admin-2.css') }}" rel="stylesheet">
 
+    {% block head %}{% endblock %}
 </head>
 
 <body id="page-top">
@@ -48,12 +49,14 @@
                     <span>Dashboard</span></a>
             </li>
 
+            {% if user["is_admin"] %}
             <!-- Nav Item - Manage Users (If user is admin) -->
             <li class="nav-item active">
                 <a class="nav-link" href="{{url_for('admin.index')}}">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <i class="fas fa-fw fa-users"></i>
                     <span>Manage Users</span></a>
             </li>
+            {% endif %}
         </ul>
         <!-- End of Sidebar -->
 
@@ -344,12 +347,8 @@
     <!-- Custom scripts for all pages-->
     <script src="{{ url_for('static', filename='sb-admin-2/js/sb-admin-2.min.js') }}"></script>
 
-    <!-- Page level plugins -->
-    <script src="{{ url_for('static', filename='sb-admin-2/vendor/chart.js/Chart.min.js') }}"></script>
-
-    <!-- Page level custom scripts -->
-    <script src="{{ url_for('static', filename='sb-admin-2/js/demo/chart-area-demo.js') }}"></script>
-    <script src="{{ url_for('static', filename='sb-admin-2/js/demo/chart-pie-demo.js') }}"></script>
+    {% block plugins %}
+    {% endblock %}
 
 </body>
 
