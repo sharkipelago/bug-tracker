@@ -27,12 +27,13 @@ def admin_required(view):
 @login_required
 def index():
     db = get_db()
+    users = db.execute(
+        'SELECT * FROM users'
+    ).fetchall()
 
 
-    
 
-
-    return render_template('admin/index.html', user=g.user)
+    return render_template('admin/manage-users.html', users=users, user=g.user)
 
 
 @bp.route('/denied')
