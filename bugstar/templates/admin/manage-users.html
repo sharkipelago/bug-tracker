@@ -51,9 +51,9 @@
                                 </td>
                                 <td>
                                     {% if not user["is_admin"] %}
-                                        <form action="{{ url_for('admin.promote', id=user['id']) }}" method="post">
-                                            <input class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm" type="submit" value="Promote User" onclick="return confirm('Are you sure?');">
-                                        </form>
+                                        <a href="#" data-action="{{ url_for('admin.promote', id=user['id']) }}" data-toggle="modal" data-target="#userModal" class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm">
+                                            Promote User</a>
+
                                     {% endif %}  
                                 </td>
 
@@ -72,6 +72,39 @@
 
 {% block plugins %}
 
+
+    <!-- Logout Modal-->
+    <!-- Not really a plugin but fits here a little better than content-->
+    <div class="modal fade" id="userModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Are you sure you want to promote this user?</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <form id="user-modal-submit" action="" method="post">
+                    </form>
+                    <button class="btn btn-success" type="submit" form="user-modal-submit">Promote User</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $('#userModal').on('shown.bs.modal', function(event) {
+            // The reference tag is your anchor tag here
+            let reference_tag = $(event.relatedTarget); 
+            $('#user-modal-submit').attr("action", reference_tag.data('action'));
+        })
+
+
+    </script>
     <!-- Page level plugins -->
     
     <script src="{{ url_for('static', filename='sb-admin-2/vendor/datatables/jquery.dataTables.min.js') }}"></script>
