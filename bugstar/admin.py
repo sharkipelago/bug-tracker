@@ -31,9 +31,21 @@ def index():
         'SELECT * FROM users'
     ).fetchall()
 
-
-
     return render_template('admin/manage-users.html', users=users, user=g.user)
+
+@bp.route('/<int:id>/promote', methods=('POST',))
+@admin_required
+@login_required
+def promote(id):
+    db = get_db()
+    db.execute(
+        'UPDATE users SET is_admin = 1'
+        ' WHERE id = ?',
+        (id,)
+    )
+    db.commit()
+    return redirect(url_for('admin.index'))
+
 
 
 @bp.route('/denied')

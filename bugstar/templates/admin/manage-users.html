@@ -25,6 +25,7 @@
                         <tr>
                             <th>Name</th>
                             <th>Position</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     <!---<tfoot>
@@ -48,6 +49,13 @@
                                         User
                                     {% endif %}
                                 </td>
+                                <td>
+                                    {% if not user["is_admin"] %}
+                                        <form action="{{ url_for('admin.promote', id=user['id']) }}" method="post">
+                                            <input class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm" type="submit" value="Promote User" onclick="return confirm('Are you sure?');">
+                                        </form>
+                                    {% endif %}  
+                                </td>
 
                             </tr>
                             <tr>
@@ -59,9 +67,11 @@
             </div>
         </div>
     </div>
+
 {% endblock %}
 
 {% block plugins %}
+
     <!-- Page level plugins -->
     
     <script src="{{ url_for('static', filename='sb-admin-2/vendor/datatables/jquery.dataTables.min.js') }}"></script>
