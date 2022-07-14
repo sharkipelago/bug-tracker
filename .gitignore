@@ -135,6 +135,8 @@ __pycache__/
 
 instance/
 
+tests/
+
 .pytest_cache/
 .coverage
 htmlcov/
