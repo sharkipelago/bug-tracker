@@ -46,6 +46,28 @@ def promote(id):
     db.commit()
     return redirect(url_for('admin.index'))
 
+@bp.route('/<int:id>/remove', methods=('POST',))
+@admin_required
+@login_required
+def remove(id):
+    db = get_db()
+    assignments = db.execute(
+        'SELECT * FROM assignments'
+        ' WHERE user_id = ?',
+        (id,)
+    ).fetchone()
+    error = None
+
+    if not assignments:
+        error = "User must be removed from all issues before being deleted"
+
+    if error is None:
+        print('stuffy')
+    else:
+        flash(error)
+        
+    return redirect(url_for('admin.index'))
+
 
 
 @bp.route('/denied')

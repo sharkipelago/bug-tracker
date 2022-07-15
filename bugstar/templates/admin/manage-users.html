@@ -51,9 +51,10 @@
                                 </td>
                                 <td>
                                     {% if not user["is_admin"] %}
-                                        <a href="#" data-action="{{ url_for('admin.promote', id=user['id']) }}" data-toggle="modal" data-target="#userModal" class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm">
+                                        <a href="#" data-action="{{ url_for('admin.promote', id=user['id']) }}" data-toggle="modal" data-target="#userModal" class="btn-success d-none d-sm-inline-block btn btn-sm shadow-sm">
                                             Promote User</a>
-
+                                        <a href="#" data-action="{{ url_for('admin.remove', id=user['id']) }}" data-toggle="modal" data-target="#userModal" class="btn-danger d-none d-sm-inline-block btn btn-sm shadow-sm">
+                                            Remove User</a>
                                     {% endif %}  
                                 </td>
 
@@ -80,17 +81,17 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Last Chance  </h5>
                     <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
-                <div class="modal-body">Are you sure you want to promote this user?</div>
+                <div id="user-modal-body" class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
                     <form id="user-modal-submit" action="" method="post">
                     </form>
-                    <button class="btn btn-success" type="submit" form="user-modal-submit">Promote User</button>
+                    <button id="modal-submit-btn" class="btn" type="submit" form="user-modal-submit">Promote User</button>
                 </div>
             </div>
         </div>
@@ -101,6 +102,9 @@
             // The reference tag is your anchor tag here
             let reference_tag = $(event.relatedTarget); 
             $('#user-modal-submit').attr("action", reference_tag.data('action'));
+            $('#modal-submit-btn').attr("class", reference_tag.attr("class").split(/\s+/)[0] + " btn");
+            $('#modal-submit-btn').text(reference_tag.text());
+            $('#user-modal-body').text(`Are you sure you want to ${reference_tag.text().split(/\s+/)[1].toLowerCase()} this user?`);
         })
 
 
