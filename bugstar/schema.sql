@@ -8,7 +8,10 @@ CREATE TABLE users (
   password TEXT NOT NULL,
   firstname TEXT NOT NULL,
   lastname TEXT NOT NULL,
-  is_admin INTEGER NOT NULL --admins can assign issues
+  admin_level INTEGER NOT NULL 
+  -- 2 is admin (can accept/delete users, promote/demote users) 
+  -- 1 is supervisor (can assign issues)
+  -- 0 is regular user (can close/view issues)
 );
 
 CREATE TABLE issues (
