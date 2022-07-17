@@ -53,16 +53,26 @@ def remove(id):
     db = get_db()
     assignments = db.execute(
         'SELECT * FROM assignments'
-        ' WHERE user_id = ?',
+        ' WHERE assignee_id = ?',
         (id,)
     ).fetchone()
     error = None
 
-    if not assignments:
+    if assignments:
         error = "User must be removed from all issues before being deleted"
 
+    #This means this user is not in the assignments table so we can simply delete them from users
     if error is None:
-        print('stuffy')
+        db.execute(
+            'DELETE FROM users WHERE id = ?', (id,)
+        )
+
+        #If the user closed any issues set the closer id to -1 to represent a deleted user
+        db.execute(
+            'UPDATE issues SET closer_id = -1'
+            ' WHERE closer_id = ?', (id, )
+        )
+        db.commit()
     else:
         flash(error)
         
