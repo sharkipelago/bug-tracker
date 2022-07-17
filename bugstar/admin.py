@@ -14,7 +14,7 @@ bp = Blueprint('admin', __name__, url_prefix='/admin')
 def admin_required(view): 
     @functools.wraps(view)
     def wrapped_view(**kwargs):
-        if g.user["is_admin"] == 0:
+        if g.user["admin_level"] != 2:
             return redirect(url_for('admin.denied'))
 
         return view(**kwargs)
@@ -39,7 +39,7 @@ def index():
 def promote(id):
     db = get_db()
     db.execute(
-        'UPDATE users SET is_admin = 1'
+        'UPDATE users SET admin_level = 1'
         ' WHERE id = ?',
         (id,)
     )

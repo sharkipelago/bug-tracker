@@ -49,7 +49,7 @@
                     <span>Dashboard</span></a>
             </li>
 
-            {% if user["is_admin"] %}
+            {% if user["admin_level"] == 2%}
             <!-- Nav Item - Manage Users (If user is admin) -->
             <li class="nav-item active">
                 <a class="nav-link" href="{{url_for('admin.index')}}">
