@@ -75,8 +75,8 @@ def get_assignees(id=-1):
     return assignees
 
 @bp.route('/create', methods=('GET', 'POST'))
-@admin_required
 @login_required
+@admin_required
 def create():
     db = get_db()
     if request.method == 'POST':
@@ -146,8 +146,8 @@ def get_all_users():
     ).fetchall()
 
 @bp.route('/<int:id>/update', methods=('GET', 'POST'))
-@admin_required
 @login_required
+@admin_required
 def update(id):
     issue = get_issue(id)
     assignees = get_assignees(id)
@@ -201,8 +201,8 @@ def update(id):
     return render_template('feed/update.html', user=g.user, issue=issue, assigned_ids=assigned_ids, all_users=get_all_users())
 
 @bp.route('/<int:id>/delete', methods=('POST',))
-@admin_required
 @login_required
+@admin_required
 def delete(id):
     get_issue(id)
     db = get_db()

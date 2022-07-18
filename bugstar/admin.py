@@ -23,8 +23,8 @@ def admin_required(view):
 
 
 @bp.route('/')
-@admin_required
 @login_required
+@admin_required
 def index():
     db = get_db()
     users = db.execute(
@@ -33,22 +33,23 @@ def index():
 
     return render_template('admin/manage-users.html', users=users, user=g.user)
 
-@bp.route('/<int:id>/promote', methods=('POST',))
-@admin_required
+# if direction = 1, promote; if direction = 0, demote
+@bp.route('/<int:id>/<int:direction>/promote', methods=('POST',))
 @login_required
-def promote(id):
+@admin_required
+def promote(id, direction):
     db = get_db()
     db.execute(
-        'UPDATE users SET admin_level = 1'
+        'UPDATE users SET admin_level = ?'
         ' WHERE id = ?',
-        (id,)
+        (direction, id)
     )
     db.commit()
     return redirect(url_for('admin.index'))
 
 @bp.route('/<int:id>/remove', methods=('POST',))
-@admin_required
 @login_required
+@admin_required
 def remove(id):
     db = get_db()
     assignments = db.execute(
