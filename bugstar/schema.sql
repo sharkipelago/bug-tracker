@@ -19,6 +19,7 @@ CREATE TABLE issues (
   author_id INTEGER NOT NULL,
   closer_id INTEGER, --user who closes issue
   created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  closed TIMESTAMP,
   title TEXT NOT NULL,
   body TEXT NOT NULL,
   FOREIGN KEY (author_id) REFERENCES user (id)
